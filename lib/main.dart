@@ -3,7 +3,37 @@ import 'package:flutter/material.dart';
 void main() {
   runApp(MaterialApp(
     title: "Contador de pessoas",
-    home: Stack(
+    home: Home()));
+}
+
+class Home extends StatefulWidget {
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+
+  int people = 0;
+  String info = "pode entrar!";
+
+  void changePeople(int delta) {
+    setState(() {
+      people += delta;
+
+      if (people < 0) {
+        return info = "ta locão!?";
+      } else if (people <= 10) {
+        return info = "Pode entrar!!";
+      } else {
+        return info = "Lotado";
+      }
+
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
       children: < Widget > [
         Image.asset(
           "images/restaurant.jpg",
@@ -13,7 +43,7 @@ void main() {
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: < Widget > [
-            Text("Pessoas: 0",
+            Text("Pessoas: $people",
               style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)
             ),
             Row(
@@ -25,7 +55,9 @@ void main() {
                     child: Text("+1",
                       style: TextStyle(fontSize: 40, color: Colors.white),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                     changePeople(1);
+                    },
                   ),
                 ),
                 Padding(
@@ -34,18 +66,20 @@ void main() {
                     child: Text("-1",
                       style: TextStyle(fontSize: 40, color: Colors.white),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      changePeople(-1);
+                    },
                   ),
                 ),
               ],
             ),
-            Text("Pode entrar!!",
+            Text("$info",
               style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold,
                 fontSize: 30.0)
             ),
           ],
         )
       ],
-    )
-  ));
+    );
+  }
 }
